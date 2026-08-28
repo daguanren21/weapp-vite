@@ -58,6 +58,10 @@
   dir: packages/ast-native
   intents:
     - calm-docs-domain
+"@weapp-vite/ast-native@0.1.0":
+  dir: packages/ast-native
+  intents:
+    - sfc-block-hmr-core
 "@weapp-vite/ast@6.20.5":
   dir: packages/ast
   intents:
@@ -68,6 +72,10 @@
   dir: packages/ast
   intents:
     - calm-docs-domain
+"@weapp-vite/ast@6.25.0":
+  dir: packages/ast
+  intents:
+    - sfc-block-hmr-core
 "@weapp-vite/dashboard@6.20.5":
   dir: packages/dashboard
   intents:
@@ -174,6 +182,10 @@
   dir: packages-runtime/wevu-compiler
   intents:
     - calm-docs-domain
+"@wevu/compiler@6.25.0":
+  dir: packages-runtime/wevu-compiler
+  intents:
+    - sfc-block-hmr-core
 "@wevu/test-utils@0.2.0":
   dir: packages-runtime/wevu-test-utils
   intents:
@@ -249,6 +261,10 @@ create-weapp-vite@2.8.5:
     - catalog-centralization
     - fresh-npm-esm-barrels
     - modern-mcp-protocol
+create-weapp-vite@2.8.6:
+  dir: packages/create-weapp-vite
+  intents:
+    - sfc-block-hmr-core
 rolldown-require@2.0.26:
   dir: packages/rolldown-require
   intents:
@@ -318,6 +334,10 @@ weapp-vite@6.24.0:
     - calm-docs-domain
     - fresh-npm-esm-barrels
     - modern-mcp-protocol
+weapp-vite@6.25.0:
+  dir: packages/weapp-vite
+  intents:
+    - sfc-block-hmr-core
 wevu@6.20.5:
   dir: packages-runtime/wevu
   intents:
