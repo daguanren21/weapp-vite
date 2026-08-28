@@ -1,5 +1,12 @@
 # wevu
 
+## 6.25.0
+
+### Patch Changes
+
+- Updated dependencies:
+  - @wevu/compiler@6.25.0
+
 ## 6.24.0
 
 ### Patch Changes
