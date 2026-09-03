@@ -74,6 +74,7 @@ export const IDE_GITHUB_ISSUES_AGGREGATED_PATTERNS = [
   'ide/github-issues.runtime.issue705.test.ts',
   'ide/github-issues.runtime.issue706.test.ts',
   'ide/github-issues.runtime.issue829.test.ts',
+  'ide/github-issues.runtime.issue380.test.ts',
   'ide/github-issues.runtime.lifecycle.test.ts',
   'ide/github-issues.runtime.miniprogram-computed.test.ts',
   'ide/github-issues.runtime.props.test.ts',
@@ -193,6 +194,7 @@ const IDE_GATE_TESTS = [
 ].map(testPath => path.resolve(ROOT, testPath))
 const IDE_HEADLESS_FULL_TESTS = [
   ...IDE_GATE_TESTS,
+  path.resolve(ROOT, 'ide/github-issues.runtime.issue380.test.ts'),
   path.resolve(ROOT, 'ide/github-issues.runtime.issue705.test.ts'),
   path.resolve(ROOT, 'ide/github-issues.runtime.issue826.test.ts'),
   path.resolve(ROOT, 'ide/github-issues.runtime.require-async.test.ts'),

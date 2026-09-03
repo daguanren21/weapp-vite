@@ -39,7 +39,9 @@ export function resolveComponentRegistryEntry(
 ) {
   // eslint-disable-next-line ts/no-use-before-define
   const usingComponents = resolveUsingComponents(context, ownerJsonPath, ownerFilePath)
-  const componentBasePath = genericComponentBasePath ?? usingComponents.get(alias)
+  const componentBasePath = genericComponentBasePath
+    ?? usingComponents.get(alias)
+    ?? (context.customTabBar && alias === 'custom-tab-bar' ? 'custom-tab-bar/index' : undefined)
   if (!componentBasePath) {
     return null
   }
@@ -311,6 +313,7 @@ export function createBrowserComponentInstance(
     requestRender: callback => context.session.requestRender(callback),
     triggerEvent: buildComponentTrigger(componentScopeId, context, clonedNode),
   })
+  componentInstance.createSelectorQuery = () => context.moduleLoader.wx.createSelectorQuery().in(componentInstance)
   setSelectorQueryScopeId(componentInstance, componentScopeId)
   componentInstance.is = componentEntry.filePath.replace(JS_FILE_RE, '')
   componentInstance.createIntersectionObserver = (options?: Record<string, any>) => context.session.createIntersectionObserver(componentInstance, options)

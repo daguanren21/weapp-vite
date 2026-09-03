@@ -1,3 +1,4 @@
+import type { HeadlessComponentInstance } from '../../runtime/componentInstance'
 import type { HeadlessPageInstance } from '../../runtime/pageInstance'
 import type { TemplateRenderState } from '../../view/templateRuntime'
 import type { BrowserRenderedPageTree, BrowserRendererContext, BrowserRenderScope, BrowserSlotContent, DomNodeLike } from './types'
@@ -398,7 +399,7 @@ export function renderBrowserPageTree(
   const seenComponentScopes = new Set<string>()
   const root = (document.children ?? [])[0] ?? document
   const templateRenderState = createTemplateRenderState(root)
-  const renderedRoot = renderNodeTree(
+  const renderedPageRoot = renderNodeTree(
     root,
     pageScope,
     context,
@@ -408,6 +409,36 @@ export function renderBrowserPageTree(
     seenComponentScopes,
     templateRenderState,
   )
+  let customTabBar: HeadlessComponentInstance | null = null
+  let renderedRoot = renderedPageRoot
+
+  if (context.customTabBar) {
+    const customTabBarHost: DomNodeLike = {
+      attribs: {},
+      children: [],
+      name: 'custom-tab-bar',
+      type: 'tag',
+    }
+    const renderedCustomTabBar = renderNodeTree(
+      customTabBarHost,
+      pageScope,
+      context,
+      'app.json',
+      'app.js',
+      `${pageScopeId}/host`,
+      seenComponentScopes,
+      createTemplateRenderState(customTabBarHost),
+    )
+    customTabBar = context.componentCache.get(`${pageScopeId}/host/custom-tab-bar`) ?? null
+    renderedRoot = {
+      attribs: {
+        'data-sim-custom-tab-bar-host': 'true',
+      },
+      children: [renderedPageRoot, renderedCustomTabBar],
+      name: 'block',
+      type: 'tag',
+    }
+  }
 
   for (const [scopeId, instance] of [...context.componentCache.entries()]) {
     if (!seenComponentScopes.has(scopeId)) {
@@ -418,6 +449,7 @@ export function renderBrowserPageTree(
   }
 
   return {
+    customTabBar,
     root: renderedRoot,
     wxml: serializeDomNode(renderedRoot),
   }

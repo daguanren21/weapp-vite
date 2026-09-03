@@ -1,0 +1,1 @@
+<view id="custom-tab-bar">{{label}}:{{ready}}</view>

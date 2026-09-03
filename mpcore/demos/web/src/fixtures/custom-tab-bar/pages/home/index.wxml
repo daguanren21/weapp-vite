@@ -1,0 +1,1 @@
+<view id="custom-tab-bar-page">{{customTabBarProbe.label}}:{{customTabBarProbe.ready}}</view>

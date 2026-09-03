@@ -5,7 +5,7 @@
 当前主要能力：
 
 - 直接执行构建后的小程序产物
-- 提供 `App/Page/Component/getApp/getCurrentPages/wx` 的最小宿主模拟
+- 提供 `App/Page/Component/getApp/getCurrentPages/wx` 的最小宿主模拟，并支持自定义 tabBar 组件挂载与页面 `getTabBar()` 访问
 - 已支持部分常用宿主 API，如导航、request mock（含 delay / abort）、sync/async storage 与 storage info、toast、loading、showModal（含默认确认与可编程 mock 返回）、showActionSheet（含默认选择与可编程取消/选项返回）、`showShareMenu/updateShareMenu/hideShareMenu`、`showTabBar/hideTabBar/showTabBarRedDot/hideTabBarRedDot/setTabBarBadge/removeTabBarBadge`、`setBackgroundTextStyle/setBackgroundColor`、getNetworkType/onNetworkStatusChange/offNetworkStatusChange、`setNavigationBarTitle/setNavigationBarColor/showNavigationBarLoading/hideNavigationBarLoading`、launch/enter options、system info、window/app base info、menu button rect、`wx.canIUse`、`wx.nextTick`
 - 提供面向 e2e/runtime 断言的页面启动、重启与 WXML 查询能力
 - 支持本地 `pluginRoot` 的 `requirePlugin`、`plugin://` 公开组件与插件页面导航

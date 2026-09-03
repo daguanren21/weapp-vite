@@ -46,11 +46,13 @@ export interface BrowserComponentRegistryEntry {
 }
 
 export interface BrowserRenderedPageTree {
+  customTabBar: HeadlessComponentInstance | null
   root: DomNodeLike
   wxml: string
 }
 
 export interface BrowserRendererContext {
+  customTabBar: boolean
   changedPageKeys: string[]
   componentCache: Map<string, HeadlessComponentInstance>
   componentScopes: Map<string, BrowserRenderScope>

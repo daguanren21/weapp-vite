@@ -493,21 +493,6 @@ describe.sequential('e2e app: github-issues / lifecycle', () => {
     }
   })
 
-  it('issue #380: keeps custom tab bar out of default layout at runtime', async (ctx) => {
-    const miniProgram = await getSharedMiniProgram(ctx)
-    try {
-      const issuePage = await relaunchPage(miniProgram, '/pages/issue-380/index')
-      if (!issuePage) {
-        throw new Error('Failed to launch issue-380 page')
-      }
-      const activeMiniProgram = await getSharedMiniProgram(ctx)
-      expect(await waitForCurrentPagePath(activeMiniProgram, '/pages/issue-380/index')).toBeTruthy()
-    }
-    finally {
-      await releaseSharedMiniProgram(miniProgram)
-    }
-  })
-
   it('issue #385: does not attach the page component twice after setPageLayout("default")', async (ctx) => {
     const issuePageWxmlPath = path.join(DIST_ROOT, 'pages/issue-385/index.wxml')
     const issuePageJsPath = path.join(DIST_ROOT, 'pages/issue-385/index.js')

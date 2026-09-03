@@ -37,6 +37,10 @@ const scenarioCatalog: Record<string, ScenarioMeta> = {
     name: 'Component Lab',
     description: '页面 usingComponents + properties + observers + lifetimes + triggerEvent，验证真正的组件链。',
   },
+  'custom-tab-bar': {
+    name: 'Custom Tab Bar',
+    description: '验证自定义 tabBar 组件挂载、页面 getTabBar 访问和浏览器预览渲染。',
+  },
   'component-page': {
     name: 'Component Page',
     description: '使用 Component() 注册页面，验证组件式页面方法与生命周期。',

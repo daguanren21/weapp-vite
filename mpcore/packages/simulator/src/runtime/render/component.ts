@@ -36,7 +36,9 @@ export function resolveComponentRegistryEntry(
 ) {
   // eslint-disable-next-line ts/no-use-before-define
   const usingComponents = resolveUsingComponents(context, ownerJsonPath, ownerFilePath)
-  const componentBasePath = genericComponentBasePath ?? usingComponents.get(alias)
+  const componentBasePath = genericComponentBasePath
+    ?? usingComponents.get(alias)
+    ?? (context.customTabBar && alias === 'custom-tab-bar' ? 'custom-tab-bar/index' : undefined)
   if (!componentBasePath) {
     return null
   }
@@ -313,6 +315,7 @@ export function createRuntimeComponentInstance(
   })
   setSelectorQueryScopeId(componentInstance, componentScopeId)
   componentInstance.is = componentEntry.filePath.replace(JS_FILE_RE, '')
+  componentInstance.createSelectorQuery = () => context.moduleLoader.wx.createSelectorQuery().in(componentInstance)
   componentInstance.createIntersectionObserver = (options?: Record<string, any>) => context.session.createIntersectionObserver(componentInstance, options)
   componentInstance.createMediaQueryObserver = () => context.session.createMediaQueryObserver(componentInstance)
   componentInstance.selectComponent = (selector: string) => context.session.selectComponentWithin(componentScopeId, selector)

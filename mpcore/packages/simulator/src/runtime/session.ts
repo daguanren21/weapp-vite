@@ -478,6 +478,7 @@ export class HeadlessSession {
     const current = this.requireCurrentPage('renderCurrentPage()')
     const rendered = renderRuntimePageTree({
       changedPageKeys: current.__lastChangedKeys__ ?? [],
+      customTabBar: this.project.appConfig.tabBar?.custom === true && this.isTabBarRoute(current.route),
       artifactSource: this.project.artifactSource,
       componentCache: this.componentCache,
       componentScopes: this.componentScopes,
@@ -1263,6 +1264,18 @@ export class HeadlessSession {
     pageInstance.createMediaQueryObserver = () => this.createMediaQueryObserver(pageInstance)
     pageInstance.selectComponent = (selector: string) => this.selectComponent(selector)
     pageInstance.selectAllComponents = (selector: string) => this.selectAllComponents(selector)
+    pageInstance.getTabBar = () => {
+      if (this.project.appConfig.tabBar?.custom !== true || !this.isTabBarRoute(pageInstance.route)) {
+        return null
+      }
+      const scopeId = `page:${stripLeadingSlash(pageInstance.route)}/host/custom-tab-bar`
+      const mountedTabBar = this.componentCache.get(scopeId)
+      if (mountedTabBar) {
+        return mountedTabBar
+      }
+      this.renderCurrentPage()
+      return this.componentCache.get(scopeId) ?? null
+    }
     if (this.isTabBarRoute(target.routeRecord.route)) {
       this.tabPages.set(target.routeRecord.route, pageInstance)
     }

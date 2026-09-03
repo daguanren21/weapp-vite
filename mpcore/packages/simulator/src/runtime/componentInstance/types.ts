@@ -1,4 +1,9 @@
-import type { HeadlessBehaviorDefinition, HeadlessComponentDefinition, HeadlessWxMediaQueryObserver } from '../../host'
+import type {
+  HeadlessBehaviorDefinition,
+  HeadlessComponentDefinition,
+  HeadlessWxMediaQueryObserver,
+  HeadlessWxSelectorQuery,
+} from '../../host'
 
 export interface HeadlessComponentInstance extends Record<string, any> {
   __definition__?: HeadlessComponentDefinition
@@ -6,6 +11,7 @@ export interface HeadlessComponentInstance extends Record<string, any> {
   __propertySnapshots__?: Record<string, any>
   __ready__?: boolean
   createIntersectionObserver?: (options?: Record<string, any>) => any
+  createSelectorQuery?: () => HeadlessWxSelectorQuery
   createMediaQueryObserver?: () => HeadlessWxMediaQueryObserver
   data: Record<string, any>
   properties: Record<string, any>

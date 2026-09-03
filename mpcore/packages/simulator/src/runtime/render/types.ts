@@ -46,12 +46,14 @@ export interface RuntimeComponentRegistryEntry {
 }
 
 export interface RuntimeRenderedPageTree {
+  customTabBar: HeadlessComponentInstance | null
   root: DomNodeLike
   wxml: string
 }
 
 export interface RuntimeRendererContext {
   artifactSource: ArtifactSource
+  customTabBar: boolean
   changedPageKeys: string[]
   componentCache: Map<string, HeadlessComponentInstance>
   componentScopes: Map<string, RuntimeRenderScope>

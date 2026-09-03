@@ -881,6 +881,7 @@ export class BrowserHeadlessSession {
     const current = this.requireCurrentPage('renderCurrentPage()')
     const rendered = renderBrowserPageTree({
       changedPageKeys: current.__lastChangedKeys__ ?? [],
+      customTabBar: this.project.appConfig.tabBar?.custom === true && this.isTabBarRoute(current.route),
       componentCache: this.componentCache,
       componentScopes: this.componentScopes,
       files: this.files,
@@ -1208,6 +1209,7 @@ export class BrowserHeadlessSession {
     const current = this.requireCurrentPage('wx.pageScrollTo()')
     const rendered = renderBrowserPageTree({
       changedPageKeys: current.__lastChangedKeys__ ?? [],
+      customTabBar: this.project.appConfig.tabBar?.custom === true && this.isTabBarRoute(current.route),
       componentCache: this.componentCache,
       componentScopes: this.componentScopes,
       files: this.files,
@@ -1316,6 +1318,7 @@ export class BrowserHeadlessSession {
       : null
     const rendered = renderBrowserPageTree({
       changedPageKeys: current.__lastChangedKeys__ ?? [],
+      customTabBar: this.project.appConfig.tabBar?.custom === true && this.isTabBarRoute(current.route),
       componentCache: this.componentCache,
       componentScopes: this.componentScopes,
       files: this.files,
@@ -1364,6 +1367,18 @@ export class BrowserHeadlessSession {
     pageInstance.createMediaQueryObserver = () => this.createMediaQueryObserver(pageInstance)
     pageInstance.selectComponent = (selector: string) => this.selectComponent(selector)
     pageInstance.selectAllComponents = (selector: string) => this.selectAllComponents(selector)
+    pageInstance.getTabBar = () => {
+      if (this.project.appConfig.tabBar?.custom !== true || !this.isTabBarRoute(pageInstance.route)) {
+        return null
+      }
+      const scopeId = `page:${stripLeadingSlash(pageInstance.route)}/host/custom-tab-bar`
+      const mountedTabBar = this.componentCache.get(scopeId)
+      if (mountedTabBar) {
+        return mountedTabBar
+      }
+      this.renderCurrentPage()
+      return this.componentCache.get(scopeId) ?? null
+    }
     if (this.isTabBarRoute(target.routeRecord.route)) {
       this.tabPages.set(target.routeRecord.route, pageInstance)
     }

@@ -3,33 +3,47 @@ import { getCurrentInstance, onReady, ref } from 'wevu'
 import { useRoute } from 'wevu/router'
 
 const ready = ref(false)
+const rendered = ref(false)
 const layoutWrapperDetected = ref(false)
-const instance = getCurrentInstance() as any
+const instance = getCurrentInstance()
 const route = useRoute()
 
-async function inspectLayoutWrapper() {
-  const query = instance?.createSelectorQuery?.()
-  if (!query) {
-    ready.value = true
+function supportsSelectorQuery(value: unknown): value is {
+  createSelectorQuery: () => WechatMiniprogram.SelectorQuery
+} {
+  return value !== null
+    && typeof value === 'object'
+    && 'createSelectorQuery' in value
+    && typeof value.createSelectorQuery === 'function'
+}
+
+async function inspectRenderedState() {
+  if (!supportsSelectorQuery(instance)) {
     return
   }
 
   await new Promise<void>((resolve) => {
-    query
+    instance
+      .createSelectorQuery()
+      .select('.issue-380-custom-tab-bar')
+      .boundingClientRect((rect: WechatMiniprogram.BoundingClientRectCallbackResult | null) => {
+        rendered.value = Boolean(rect)
+      })
       .select('.issue-380-default-layout')
       .boundingClientRect((rect: WechatMiniprogram.BoundingClientRectCallbackResult | null) => {
         layoutWrapperDetected.value = Boolean(rect)
       })
-      .exec(() => {
-        ready.value = true
-        resolve()
-      })
+      .exec(() => resolve())
   })
 }
 
-function _runE2E() {
+async function _runE2E() {
+  if (ready.value) {
+    await inspectRenderedState()
+  }
   return {
     ready: ready.value,
+    rendered: rendered.value,
     layoutWrapperDetected: layoutWrapperDetected.value,
     route: {
       path: route.path,
@@ -41,12 +55,13 @@ function _runE2E() {
 }
 
 onReady(() => {
-  void inspectLayoutWrapper()
+  ready.value = true
 })
 
 defineExpose({
   _runE2E,
   ready,
+  rendered,
   layoutWrapperDetected,
 })
 </script>

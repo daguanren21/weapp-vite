@@ -343,6 +343,7 @@ describe('suiteRunner', () => {
     expect(ideHeadlessGateLabels).toContain('ide/wevu-runtime.weapp.test.ts')
     expect(ideHeadlessFullLabels).toContain('ide/lifecycle-compare.test.ts')
     expect(ideHeadlessFullLabels).toContain('ide/github-issues.runtime.issue705.test.ts')
+    expect(ideHeadlessFullLabels).toContain('ide/github-issues.runtime.issue380.test.ts')
     expect(ideHeadlessFullLabels).toContain('ide/wevu-jsx-tsx.runtime.test.ts')
     expect(ideWevuJsxLabels).toEqual([
       'ide/wevu-jsx-tsx.runtime.test.ts',

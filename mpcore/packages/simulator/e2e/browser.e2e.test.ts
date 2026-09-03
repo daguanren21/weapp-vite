@@ -184,6 +184,47 @@ describe.sequential('simulator browser e2e', () => {
     })
   })
 
+  it('renders a custom tab bar and exposes its component instance to the page', async () => {
+    const bridge = getBridge()!
+    bridge.pickScenario('custom-tab-bar')
+    await waitFor(
+      () => bridge.getState(),
+      state => state.currentScenarioId === 'custom-tab-bar' && state.currentRoute === 'pages/home/index',
+      20_000,
+    )
+
+    bridge.runPageMethod('probeCustomTabBar')
+    const state = await waitFor(
+      () => bridge.getState(),
+      (nextState) => {
+        const data = parseJsonString<{
+          customTabBarProbe: {
+            exists: boolean
+            label: string | null
+            ready: boolean | null
+          } | null
+        }>(nextState.pageData)
+        return data.customTabBarProbe?.ready === true
+      },
+      20_000,
+    )
+    const pageData = parseJsonString<{
+      customTabBarProbe: {
+        exists: boolean
+        label: string | null
+        ready: boolean | null
+      }
+    }>(state.pageData)
+
+    expect(pageData.customTabBarProbe).toEqual({
+      exists: true,
+      label: 'custom tab bar mounted',
+      ready: true,
+    })
+    expect(state.previewMarkup).toContain('id="custom-tab-bar"')
+    expect(state.previewMarkup).toContain('custom tab bar mounted:true')
+  })
+
   it('loads local plugin exports, components, and pages in the browser demo', async () => {
     const bridge = getBridge()!
     bridge.pickScenario('plugin-runtime')
